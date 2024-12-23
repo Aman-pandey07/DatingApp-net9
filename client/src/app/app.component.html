@@ -1,0 +1,12 @@
+<h1>{{title}}</h1> 
+<!-- //herer in double brackets we can access the title property of the component which is defined in the app.component.ts file -->
+
+<ul >
+    <!-- //here we are using a built in for loop of the angular to loop through the users array and display the id and userName of each user  -->
+    <li *ngFor="let user of users">
+        {{user.id}}-{{user.userName}}
+    </li>
+</ul>
+
+
+
