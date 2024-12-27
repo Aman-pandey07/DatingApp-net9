@@ -3,9 +3,17 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
-  provideHttpClient()  //here we injected a dependency in process to consume api this is the 1st step
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes),
+    provideHttpClient(),  //here we injected a dependency in process to consume api this is the 1st step
+    provideAnimations(),
+    provideToastr({
+        positionClass:'toast-bottom-right'
+    })
   ]
 };

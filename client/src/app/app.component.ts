@@ -2,30 +2,42 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { NavComponent } from "./nav/nav.component";
+import { AccountService } from './_services/account.service';
+import { HomeComponent } from "./home/home.component";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterOutlet ,CommonModule, NavComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent  implements OnInit {
   
-  http = inject(HttpClient); //here we defined a http property and accessed the http client which we defined in step1 in appconfig.ts and this is step 2
+ 
+  //here we are injecting the account service in the app component and this is 
+  private accountService = inject(AccountService);
+
   title = 'Dating app';
-  users: any;
+  
 
   ngOnInit(): void {
-    this.http.get("http://localhost:5000/api/users").subscribe({
-     // next: () => {} this is a empty call back function
-     next: response => this.users = response, //here we are defining a function to get the responce and assign it to the user property step5
-
-     error: error => console.log(error), //here we are defining a function to get the error if any and log it to the console step6
-
-     complete : () => console.log('Request has completed') //here we are defining a function to get the completion of the responce step7
-
-    }) //here we are accessing the http property in this ngOnInit constructor and calling the get method to consume the api and this is step 3
-    //here the angular consider all the responce as an observable so we need to subscribe to it to get the responce and then defin our function of what to do with the responce step 4
+    this.setCurrentUser();
   }
+
+  //this is a method to set the current user globally so that when we are logged in and we refresh the page we dont have to login again and again
+  setCurrentUser(){
+    //first we are fetching the user from the local storage and storing it in a const variable named userString
+    const userString = localStorage.getItem('user');
+    //if the userString is null we are returning from the function
+    if(!userString) return;
+    //if the userString is not null we are parsing the userString to a JSON object and storing it in a const variable named user
+    const user = JSON.parse(userString);
+    //then we are setting the current user signal to the user object
+    this.accountService.currentUser.set(user);
+  }
+
+  
 }
