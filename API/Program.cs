@@ -2,6 +2,7 @@ using System.Text;
 using API.Data;
 using API.Extensions;
 using API.Interfaces;
+using API.Middleware;
 using API.services;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +32,9 @@ builder.Services.AddCors(options =>
 
 //before the below written code we added the cors service to the service container this is important or we can say it is kind of a inmportant step to add cors service to the service container
 var app = builder.Build();
+
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 // Configure the HTTP request pipeline.
