@@ -18,38 +18,38 @@ public class AccountController(DataContext context,ITokenService tokenService) :
 
     [HttpPost("register")] //this is a post request to register user and the end point is *api/account/register* it take account from the class name and remove the word Controller
 
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto) 
-    //Task<ActionResult<AppUser>> means 
-    // Task: Represents an asynchronous operation that will eventually return a result.
-    // ActionResult: A wrapper that provides a flexible way to return HTTP responses (e.g., success, error) from a controller in ASP.NET.
-    // AppUser: The actual type of data being returned (likely a user object).
-    {
+    // public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto) 
+    // //Task<ActionResult<AppUser>> means 
+    // // Task: Represents an asynchronous operation that will eventually return a result.
+    // // ActionResult: A wrapper that provides a flexible way to return HTTP responses (e.g., success, error) from a controller in ASP.NET.
+    // // AppUser: The actual type of data being returned (likely a user object).
+    // {
 
-        // we are checking if the username already exists in the database with the current username entered by the user
-        if(await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+    //     // we are checking if the username already exists in the database with the current username entered by the user
+    //     if(await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
 
-        using var hmac = new HMACSHA512(); 
-        //using statement is used to ensure that the object is disposed of when it goes out of scope.
+        // using var hmac = new HMACSHA512(); 
+        // //using statement is used to ensure that the object is disposed of when it goes out of scope.
         
-        var user = new AppUser
-        {
-            UserName = registerDto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            // we are converting the password to byte array and then hashing it
-            PasswordSalt = hmac.Key 
-            // this is the key that we will use to verify the password
-        };
+        // var user = new AppUser
+        // {
+        //     UserName = registerDto.Username.ToLower(),
+        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+        //     // we are converting the password to byte array and then hashing it
+        //     PasswordSalt = hmac.Key 
+        //     // this is the key that we will use to verify the password
+        // };
 
-        context.Users.Add(user); // this step is done to add the user to the database
-        await context.SaveChangesAsync(); // this step is done to save the changes to the database
+        // context.Users.Add(user); // this step is done to add the user to the database
+        // await context.SaveChangesAsync(); // this step is done to save the changes to the database
 
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user)
-        };
-    }
+        // return new UserDto
+        // {
+        //     Username = user.UserName,
+        //     Token = tokenService.CreateToken(user)
+        // };
+    // }
 
 
     //this is a post request to login user and the end point is *api/account/login* it take account from the class name and remove the word Controller

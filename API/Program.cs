@@ -38,7 +38,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 
 // Configure the HTTP request pipeline.
-app.UseCors("AllowAngularApp"); 
+app.UseCors("AllowAngularApp");
 // x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200,https://localhost:4200")
 // ); 
 //this is the solution to give api server access to the angular server in short giving communication line to both the server 
@@ -48,5 +48,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+//Creates a disposable scope for accessing application services.
+using var scope = app.Services.CreateScope();
+// Gets the service provider from the created scope.
+var services = scope.ServiceProvider;
+try
+{
+    //Resolves an instance of the DataContext from the service provider.
+    var context = services.GetRequiredService<DataContext>();
+    //Asynchronously applies any pending database migrations.
+    await context.Database.MigrateAsync();
+    //Asynchronously seeds the database with user data.
+    await Seed.SeedUsers(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
+}
 
 app.Run();

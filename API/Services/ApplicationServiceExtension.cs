@@ -22,6 +22,9 @@ public static class ApplicationServiceExtension
         //in this line we defined the interface and the class that we want to use with the dependency injection and after adding the service we can use the class in the Account controller
         services.AddScoped<ITokenService, TokenService>();
 
+        services.AddScoped<IUserRepository , UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         return services;
     }
 }
