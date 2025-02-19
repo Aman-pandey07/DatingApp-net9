@@ -1,0 +1,18 @@
+import { Photo } from "./Photo"
+
+export interface Root {
+  id: number
+  userName: string
+  age: number
+  photoUrl: string
+  knownAs: string
+  created: Date
+  lastActive: Date
+  gender: string
+  introduction: string
+  intrests: any
+  lookingFor: string
+  city: string
+  country: string
+  photos: Photo[]
+}
