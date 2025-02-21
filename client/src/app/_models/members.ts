@@ -1,6 +1,6 @@
 import { Photo } from "./Photo"
 
-export interface Root {
+export interface Member {
   id: number
   userName: string
   age: number

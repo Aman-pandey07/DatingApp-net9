@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/user';
 import { map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AccountService {
   private http = inject(HttpClient);
 
   //this step below is to set the base URL for the API for now we have hardcoded it
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
 
   //this step below is to create a signal to store the current user signal is a reactive variable that can be subscribed to.beforw this we created a user interface which just define what the user is in the model folder in the user.ts file
   currentUser = signal<User | null>(null)
